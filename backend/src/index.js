@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({
   path: './.env',
 });
+import cookieParser from 'cookie-parser';
 import dns from 'node:dns/promises';
 dns.setServers(['1.1.1.1']);
 import chalk from 'chalk';
@@ -13,6 +14,7 @@ import { connectDB } from './db/connect.js';
 
 // ** MIDDLEWARES
 app.use(express.json());
+app.use(cookieParser());
 
 // ** ROUTES
 app.use('/api/auth', authRouter);
