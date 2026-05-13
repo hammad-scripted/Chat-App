@@ -69,9 +69,81 @@ export const signup = async (req, res) => {
     });
   }
 };
-export const login = (req, res) => {
-  res.send('login');
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({
+      message: 'All fields are required',
+      success: false,
+    });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message: 'User not found',
+        success: false,
+      });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({
+        message: 'Invalid password',
+        success: false,
+      });
+    }
+    generateToken(user._id, res);
+
+    res.status(200).json({
+      message: 'User logged in successfully',
+      success: true,
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
+    });
+  } catch (error) {
+    console.log('Login Error:', error.message);
+
+    return res.status(500).json({
+      message: 'Something went wrong',
+      success: false,
+    });
+  }
 };
 export const logout = (req, res) => {
-  res.send('logout');
+  try {
+    res.cookie('jwt', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      sameSite: 'strict',
+      maxAge: 0,
+    });
+    res.status(200).json({
+      message: 'User logged out successfully',
+      success: true,
+    });
+  } catch (error) {
+    console.log('Logout Error:', error.message);
+    return res.status(500).json({
+      message: 'Something went wrong',
+      success: false,
+    });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    const user = await User.findById(req.user._id);
+    user.profilePic = profilePic;
+    await user.save();
+    return res.status(200).json({
+      message: 'Profile updated successfully',
+      success: true,
+    });
+  } catch (error) {}
 };
