@@ -8,6 +8,7 @@ dns.setServers(['1.1.1.1']);
 import chalk from 'chalk';
 import express from 'express';
 import authRouter from './routes/auth.route.js';
+import messageRouter from './routes/message.route.js';
 const app = express();
 const PORT = process.env.PORT || 5001;
 import { connectDB } from './db/connect.js';
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 // ** ROUTES
 app.use('/api/auth', authRouter);
+app.use('/api/message', messageRouter);
 
 connectDB()
   .then((conn) => {

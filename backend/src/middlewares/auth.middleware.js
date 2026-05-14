@@ -1,7 +1,7 @@
-import { jwt } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
 
-import { cookieParser } from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 export const protectRoute = async (req, res, next) => {
   //* first approach if we use bearer token
   //   let token;
