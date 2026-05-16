@@ -30,12 +30,21 @@ export const protectRoute = async (req, res, next) => {
       return res.status(401).json({ message: 'Not authorized' });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // *first method
     const user = await User.findById(decoded.userId).select('-password');
     if (!user) {
       return res.status(401).json({ message: 'Not authorized' });
     }
     req.user = user;
     next();
+
+    // *second method
+    // req.user={
+    //   id:user._id,
+    //   name:user.name,
+    //   email:user.email
+    // }
+    // next();
   } catch (error) {
     console.log(error);
     res.status(401).json({ message: 'Not authorized', success: false });
