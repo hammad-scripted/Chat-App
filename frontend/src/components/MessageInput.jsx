@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
-import { Image, Send, X } from "lucide-react";
+import { Image as ImageIcon, Send, X } from "lucide-react";
 import toast from "react-hot-toast";
 
 const MAX_DIM = 1024;
@@ -129,7 +129,7 @@ const MessageInput = () => {
             className={`btn btn-circle ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
             onClick={() => fileInputRef.current?.click()}
           >
-            <Image size={20} />
+            <ImageIcon size={20} />
           </button>
         </div>
         <button
