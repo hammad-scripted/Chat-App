@@ -10,7 +10,7 @@ import chalk from 'chalk';
 import express from 'express';
 import authRouter from './routes/auth.route.js';
 import messageRouter from './routes/message.route.js';
-const app = express();
+import { io, server, app } from './lib/socket.js';
 const PORT = process.env.PORT || 5001;
 import { connectDB } from './db/connect.js';
 
@@ -38,7 +38,7 @@ connectDB()
         `Connected to MongoDB Database ${conn.connection.host}`,
       ),
     );
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(chalk.yellow(`Server is running on port ${PORT}`));
     });
   })
