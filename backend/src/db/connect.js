@@ -4,7 +4,7 @@ export const connectDB = async () => {
     const connection = await mongoose.connect(process.env.MONGO_URL);
     return connection;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     process.exit(1);
   }
 };

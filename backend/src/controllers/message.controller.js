@@ -11,7 +11,7 @@ export const getUsersForSidebar = async (req, res) => {
 
     return res.status(200).json(filteredUsers);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };
@@ -28,7 +28,7 @@ export const getMessages = async (req, res) => {
     });
     return res.status(200).json(messages);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };
@@ -60,7 +60,7 @@ export const sendMessages = async (req, res) => {
 
     return res.status(200).json(newMessage);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: 'Something went wrong' });
   }
 };

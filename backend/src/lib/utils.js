@@ -13,6 +13,6 @@ export const generateToken = (userId, res) => {
     });
     return token;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

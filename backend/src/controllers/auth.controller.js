@@ -61,7 +61,7 @@ export const signup = async (req, res) => {
       profilePic: newUser.profilePic,
     });
   } catch (error) {
-    console.log('Signup Error:', error.message);
+    console.error('Signup Error:', error.message);
 
     return res.status(500).json({
       message: 'Something went wrong',
@@ -106,7 +106,7 @@ export const login = async (req, res) => {
       profilePic: user.profilePic,
     });
   } catch (error) {
-    console.log('Login Error:', error.message);
+    console.error('Login Error:', error.message);
 
     return res.status(500).json({
       message: 'Something went wrong',
@@ -127,7 +127,7 @@ export const logout = (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log('Logout Error:', error.message);
+    console.error('Logout Error:', error.message);
     return res.status(500).json({
       message: 'Something went wrong',
       success: false,
@@ -150,7 +150,7 @@ export const updateProfile = async (req, res) => {
     try {
       uploadResponse = await cloudinary.uploader.upload(profilePic);
     } catch (uploadError) {
-      console.log('Cloudinary Upload Error:', uploadError);
+      console.error('Cloudinary Upload Error:', uploadError);
       return res.status(500).json({
         message: 'Failed to upload image to Cloudinary',
         success: false,
@@ -183,7 +183,7 @@ export const updateProfile = async (req, res) => {
       profilePic: updatedUser.profilePic,
     });
   } catch (error) {
-    console.log('Update Profile Error:', error.message);
+    console.error('Update Profile Error:', error.message);
 
     return res.status(500).json({
       message: 'Something went wrong',
@@ -196,7 +196,7 @@ export const checkAuth = (req, res) => {
   try {
     res.status(200).json(req.user);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({
       message: 'Token is not provided',
       success: false,

@@ -33,15 +33,15 @@ app.use('/api/message', messageRouter);
 
 connectDB()
   .then((conn) => {
-    console.log(
+    console.info(
       chalk.magentaBright(
         `Connected to MongoDB Database ${conn.connection.host}`,
       ),
     );
     server.listen(PORT, () => {
-      console.log(chalk.yellow(`Server is running on port ${PORT}`));
+      console.info(chalk.yellow(`Server is running on port ${PORT}`));
     });
   })
   .catch((err) => {
-    console.log(chalk.red(`MongoDB connection error ${err}`));
+    console.error(chalk.red(`MongoDB connection error ${err}`));
   });

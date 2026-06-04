@@ -21,7 +21,7 @@ export const useAuthStore = create((set,get) => ({
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
-      console.log('Error checking auth:', error);
+      console.error('Error checking auth:', error);
       set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
@@ -38,7 +38,7 @@ export const useAuthStore = create((set,get) => ({
       get().connectSocket();
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
-      console.log('Error signing up:', error);
+      console.error('Error signing up:', error);
     } finally {
       set({ isSigningUp: false });
     }
@@ -51,7 +51,7 @@ export const useAuthStore = create((set,get) => ({
       toast.success('Logged out successfully');
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
-      console.log('Error logging out:', error);
+      console.error('Error logging out:', error);
     }
   },
   login: async (userData) => {
@@ -63,7 +63,7 @@ export const useAuthStore = create((set,get) => ({
       get().connectSocket();
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
-      console.log('Error logging in:', error);
+      console.error('Error logging in:', error);
     } finally {
       set({ isLoggingIn: false });
     }
@@ -78,7 +78,7 @@ export const useAuthStore = create((set,get) => ({
       set({ authUser: res.data });
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to update profile');
-      console.log('Error updating profile pic:', error);
+      console.error('Error updating profile pic:', error);
     } finally {
       set({ isUpdatingProfile: false });
     }
@@ -87,7 +87,7 @@ export const useAuthStore = create((set,get) => ({
     const {authUser}=get();
     if(!authUser || get().socket?.connected){
       // user not authenticated or already connected
-      console.log('User not authenticated or socket already connected, cannot connect to socket');
+      console.info('User not authenticated or socket already connected, cannot connect to socket');
       return;
     }
     const socket=io(BASE_URL,{
