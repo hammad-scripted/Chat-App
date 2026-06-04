@@ -7,7 +7,7 @@ import { axiosInstance } from '../lib/axios.js';
 export const useChatStore=create((set)=>({
     messages:[],
     users:[],
-    selectedUsers:null,
+    selectedUser:null,
     isUserLoading:false,
     isMessageLoading:false,
 
@@ -16,7 +16,7 @@ export const useChatStore=create((set)=>({
     set({isUserLoading:true});
 
     try{
-        const res=await axiosInstance.get('/messages/users');
+        const res=await axiosInstance.get('/message/users');
         set({users:res.data});
         console.log(res.data);
 
@@ -31,7 +31,7 @@ export const useChatStore=create((set)=>({
 getMessages:async(userId)=>{
     set({isMessageLoading:true});
     try{
-        const res=await axiosInstance.get(`/messages/${userId}`);
+        const res=await axiosInstance.get(`/message/${userId}`);
         set({messages:res.data});
         console.log(res.data);
     }catch(error){
@@ -40,5 +40,12 @@ getMessages:async(userId)=>{
         set({isMessageLoading:false});
     }
 }
+,
+// todo optimize this later
 
-}))
+
+setSelectedUser:(selectedUser)=>{
+    set({selectedUser});
+}
+
+})) 
