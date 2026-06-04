@@ -9,7 +9,8 @@ export const useChatStore=create((set,get)=>({
     users:[],
     selectedUser:null,
     isUserLoading:false,
-    isMessageLoading:false,
+    isMessagesLoading:false,
+    socket:null,
 
 
     getUsers:async()=>{
@@ -21,7 +22,7 @@ export const useChatStore=create((set,get)=>({
         console.log(res.data);
 
     }catch(error){
-        toast.error(error.response.data.message);
+        toast.error(error.response?.data?.message || error.message);
     }finally{
         set({isUserLoading:false});
     }
@@ -29,35 +30,41 @@ export const useChatStore=create((set,get)=>({
 
 },
 getMessages:async(userId)=>{
-    set({isMessageLoading:true});
+    set({isMessagesLoading:true});
     try{
         const res=await axiosInstance.get(`/message/${userId}`);
         set({messages:res.data});
         console.log(res.data);
     }catch(error){
-        toast.error(error.response.data.message);
+        toast.error(error.response?.data?.message || error.message);
     }finally{
-        set({isMessageLoading:false});
+        set({isMessagesLoading:false});
     }
 },
 sendMessage:async(messageData)=>{
     const {selectedUser,messages}=get();
+    if(!selectedUser){
+        toast.error('No recipient selected');
+        return;
+    }
     try{
         const res=await axiosInstance.post(`/message/${selectedUser._id}`,messageData);
         set({messages:[...messages,res.data]});
     }catch(error){
-        toast.error(error.response.data.message);   
+        toast.error(error.response?.data?.message || error.message);   
     }
 
 }
 ,
 // subscribe to new messages using socket.io
 subscribeToMessages:()=>{
-    const {selectedUser,messages}=get();
+    const {selectedUser}=get();
     if(!selectedUser) return;
     const socket=useChatStore.getState().socket;
-    
+    if(!socket) return;
 
+    // avoid duplicate handlers
+    socket.off("new-message");
     socket.on("new-message",(newMessage)=>{
         set({messages:[...get().messages,newMessage]});
     });
@@ -68,10 +75,10 @@ subscribeToMessages:()=>{
 unsubscribeFromMessages:()=>{
 
     const socket=useChatStore.getState().socket;
+    if(!socket) return;
     socket.off("new-message");
 }
 ,
-
 
 setSelectedUser:(selectedUser)=>{
     set({selectedUser});
