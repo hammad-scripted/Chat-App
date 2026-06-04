@@ -14,12 +14,26 @@ const io=new Server(server,{
     }
 }); 
 
+// used to store online users and their corresponding socket ids
+const userSocketMap={};
+
 
 io.on("connection",(socket)=>{
     console.log("a user connected with id ",socket.id);
 
+    const userId=socket.handshake.query.userId;
+    if(userId){
+        userSocketMap[userId]=socket.id;
+    }
+
+    io.emit("online-users",Object.keys(userSocketMap));
+
     socket.on("disconnect",()=>{
         console.log("a user disconnected with id ",socket.id);
+        if(userId){
+            delete userSocketMap[userId];
+        }
+        io.emit("online-users",Object.keys(userSocketMap));
     })
  
 })
