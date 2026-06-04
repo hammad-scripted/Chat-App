@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import {io} from 'socket.io-client';
 import { axiosInstance } from './../lib/axios.js';
 import toast from 'react-hot-toast';
+import { useChatStore } from './useChatStore.js';
 const BASE_URL= 'http://localhost:5001';
 
 export const useAuthStore = create((set,get) => ({
@@ -36,7 +37,7 @@ export const useAuthStore = create((set,get) => ({
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message);
       console.log('Error signing up:', error);
     } finally {
       set({ isSigningUp: false });
@@ -49,7 +50,7 @@ export const useAuthStore = create((set,get) => ({
       get().disconnectSocket();
       toast.success('Logged out successfully');
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message);
       console.log('Error logging out:', error);
     }
   },
@@ -61,7 +62,7 @@ export const useAuthStore = create((set,get) => ({
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message);
       console.log('Error logging in:', error);
     } finally {
       set({ isLoggingIn: false });
@@ -85,8 +86,9 @@ export const useAuthStore = create((set,get) => ({
   connectSocket:()=>{
     const {authUser}=get();
     if(!authUser || get().socket?.connected){
-      return ;
+      // user not authenticated or already connected
       console.log('User not authenticated or socket already connected, cannot connect to socket');
+      return;
     }
     const socket=io(BASE_URL,{
       query:{
@@ -95,6 +97,8 @@ export const useAuthStore = create((set,get) => ({
     });
     socket.connect();
     set({socket});
+    // also mirror socket into chat store so other stores can use it
+    try{ useChatStore.setState({ socket }); }catch(e){/* ignore if chat store not ready */}
 
     socket.on("online-users",(userIds)=>{
       set({onlineUsers:userIds});
@@ -107,6 +111,7 @@ export const useAuthStore = create((set,get) => ({
    if(get().socket?.connected){
     get().socket.disconnect();
     set({socket:null});
+    try{ useChatStore.setState({ socket: null }); }catch(e){}
    }
   }
 }));
