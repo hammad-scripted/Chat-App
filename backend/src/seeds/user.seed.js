@@ -1,4 +1,6 @@
 import { config } from "dotenv";
+import dns from 'node:dns/promises';
+dns.setServers(['1.1.1.1']);
 import {connectDB} from "../db/connect.js";
 import {User} from "../models/user.model.js"
 
