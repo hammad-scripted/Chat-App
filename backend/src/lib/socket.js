@@ -7,6 +7,8 @@ const app=express();
 const server=http.createServer(app);
 
 
+// * Initialize Socket.IO server and configure CORS settings
+
 const io=new Server(server,{
     cors:{
         origin:"http://localhost:5173",
@@ -14,6 +16,9 @@ const io=new Server(server,{
     }
 }); 
 
+export const getReceiverSocketId=  (receiverId)=>{
+    return userSocketMap[receiverId];
+}
 // used to store online users and their corresponding socket ids
 const userSocketMap={};
 
