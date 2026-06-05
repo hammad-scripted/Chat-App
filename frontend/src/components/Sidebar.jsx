@@ -34,7 +34,7 @@ const Sidebar = () => {
       {/* Overlay for mobile when sidebar is open */}
       {sidebarOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/40 z-40"
+          className="md:hidden fixed top-16 inset-0 bg-black/40 z-40"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -42,16 +42,16 @@ const Sidebar = () => {
       <aside
         className={`flex flex-col bg-base-100 border-r border-base-300 transition-transform duration-200 z-50
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-        fixed inset-0 w-full top-0 left-0 md:relative md:translate-x-0 md:inset-auto md:w-72 md:top-0 md:left-0`}
+        fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 md:relative md:translate-x-0 md:inset-auto md:w-72 md:h-auto md:top-0 md:left-0`}
       >
         {/* Mobile panel header */}
-        <div className="md:hidden flex items-center justify-between p-3 border-b border-base-300">
+        <div className="md:hidden flex items-center justify-between p-3 border-b border-base-300 bg-base-100">
           <div className="flex items-center gap-2">
-            <Users className="size-6" />
-            <span className="font-medium">Contacts</span>
+            <Users className="w-5 h-5" />
+            <span className="font-medium text-sm">Contacts</span>
           </div>
-          <button className="btn btn-ghost btn-sm" onClick={() => setSidebarOpen(false)} aria-label="Close contacts">
-            <X />
+          <button className="btn btn-ghost btn-xs" onClick={() => setSidebarOpen(false)} aria-label="Close contacts">
+            <X className="w-5 h-5" />
           </button>
         </div>
         <div className="border-b border-base-300 w-full p-5">

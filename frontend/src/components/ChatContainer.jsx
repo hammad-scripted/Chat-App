@@ -41,8 +41,11 @@ const ChatContainer = () => {
   // If no user is selected, show placeholder
   if (!selectedUser) {
     return (
-      <div className="flex-1 flex flex-col min-h-0">
-        <NoChatSelected />
+      <div className="flex-1 flex flex-col min-h-0 bg-base-100">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+          <NoChatSelected />
+        </div>
+        <MessageInput />
       </div>
     );
   }
@@ -58,10 +61,10 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col min-h-0">
+    <div className="flex-1 flex flex-col min-h-0 bg-base-100">
       <ChatHeader />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-36 md:pb-24 min-h-0">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4 min-h-0">
         {messages && messages.map((message, idx) => (
           <div
             key={message._id}
@@ -85,7 +88,7 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col max-w-[85%] sm:max-w-[70%] md:max-w-[55%] lg:max-w-[45%]">
+            <div className="chat-bubble flex flex-col max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl break-words">
               {message.image && (
                 <img
                   src={message.image}

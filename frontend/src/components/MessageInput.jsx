@@ -86,20 +86,19 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="sticky bottom-0 bg-base-100 z-20 border-t border-base-300 p-3 md:p-4">
-      <div className="max-w-full">
+    <div className="bg-base-100 border-t border-base-300 p-2 sm:p-3 md:p-4 w-full flex-shrink-0">
+      <div className="max-w-full px-1 sm:px-0">
         {imagePreview && (
           <div className="mb-3 flex items-center gap-2">
             <div className="relative">
               <img
                 src={imagePreview}
                 alt="Preview"
-                className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-zinc-700"
+              className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg border border-zinc-700"
               />
               <button
                 onClick={removeImage}
-                className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-base-300
-                flex items-center justify-center"
+                className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-base-300 flex items-center justify-center"
                 type="button"
                 aria-label="Remove attachment"
               >
@@ -113,7 +112,7 @@ const MessageInput = () => {
           <div className="flex-1 flex gap-2">
             <input
               type="text"
-              className="w-full input input-bordered rounded-lg input-sm md:input-md"
+              className="w-full input input-bordered rounded-lg input-xs sm:input-sm md:input-md"
               placeholder="Type a message..."
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -129,16 +128,16 @@ const MessageInput = () => {
 
             <button
               type="button"
-              className={`btn btn-circle ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
+              className={`btn btn-ghost btn-circle btn-sm ${imagePreview ? "text-emerald-500" : "text-base-content/60"}`}
               onClick={() => fileInputRef.current?.click()}
               aria-label="Attach image"
             >
-              <ImageIcon size={18} />
+              <ImageIcon size={20} />
             </button>
           </div>
           <button
             type="submit"
-            className="btn btn-primary btn-sm rounded-full px-3 py-2"
+            className="btn btn-primary btn-sm sm:btn-md rounded-full"
             disabled={!text.trim() && !imagePreview}
             aria-label="Send message"
           >
