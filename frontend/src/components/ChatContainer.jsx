@@ -41,7 +41,7 @@ const ChatContainer = () => {
   // If no user is selected, show placeholder
   if (!selectedUser) {
     return (
-      <div className="flex-1 flex flex-col overflow-auto">
+      <div className="flex-1 flex flex-col min-h-0">
         <NoChatSelected />
       </div>
     );
@@ -49,7 +49,7 @@ const ChatContainer = () => {
 
   if (isMessagesLoading) {
     return (
-      <div className="flex-1 flex flex-col overflow-auto">
+      <div className="flex-1 flex flex-col min-h-0">
         <ChatHeader />
         <MessageSkeleton />
         <MessageInput />
@@ -58,10 +58,10 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-auto">
+    <div className="flex-1 flex flex-col min-h-0">
       <ChatHeader />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-28 md:pb-24">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-36 md:pb-24 min-h-0">
         {messages && messages.map((message, idx) => (
           <div
             key={message._id}
@@ -76,6 +76,7 @@ const ChatContainer = () => {
                       : selectedUser.profilePic || "/avatar.png"
                   }
                   alt="profile pic"
+                  className="object-cover w-full h-full"
                 />
               </div>
             </div>
@@ -84,7 +85,7 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col max-w-[75%] sm:max-w-[60%] md:max-w-[45%]">
+            <div className="chat-bubble flex flex-col max-w-[85%] sm:max-w-[70%] md:max-w-[55%] lg:max-w-[45%]">
               {message.image && (
                 <img
                   src={message.image}

@@ -43,7 +43,7 @@ const Sidebar = () => {
         className={`h-full border-r border-base-300 flex flex-col transition-transform duration-200 bg-base-100
         ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed top-16 left-0 z-50 w-64 md:relative md:translate-x-0 md:top-0 lg:w-72`}
+        } fixed top-16 left-0 z-50 w-72 md:relative md:translate-x-0 md:top-0 lg:w-72`}
       >
         {/* Mobile panel header */}
         <div className="md:hidden flex items-center justify-between p-3 border-b border-base-300">

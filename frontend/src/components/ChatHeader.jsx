@@ -14,14 +14,14 @@ const ChatHeader = () => {
         <div className="flex items-center gap-3">
           {/* Avatar */}
           <div className="avatar">
-            <div className="size-10 rounded-full relative">
-              <img src={selectedUser.profilePic || "/avatar.png"} alt={selectedUser.fullName} />
+            <div className="w-10 h-10 rounded-full relative overflow-hidden">
+              <img src={selectedUser.profilePic || "/avatar.png"} alt={selectedUser.fullName} className="object-cover w-full h-full" />
             </div>
           </div>
 
           {/* User info */}
-          <div>
-            <h3 className="font-medium">{selectedUser.fullName}</h3>
+          <div className="min-w-0">
+            <h3 className="font-medium truncate">{selectedUser.fullName}</h3>
             <p className="text-sm text-base-content/70">
               {onlineUsers.includes(selectedUser._id) ? "Online" : "Offline"}
             </p>
@@ -29,7 +29,7 @@ const ChatHeader = () => {
         </div>
 
         {/* Close button */}
-        <button onClick={() => { setSelectedUser(null); setSidebarOpen(true); }}>
+        <button className="p-1 rounded-md hover:bg-base-200/50" onClick={() => { setSelectedUser(null); setSidebarOpen(true); }} aria-label="Close chat">
           <X />
         </button>
       </div>

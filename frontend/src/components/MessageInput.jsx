@@ -87,61 +87,65 @@ const MessageInput = () => {
 
   return (
     <div className="sticky bottom-0 bg-base-100 z-20 border-t border-base-300 p-3 md:p-4">
-      {imagePreview && (
-        <div className="mb-3 flex items-center gap-2">
-          <div className="relative">
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg border border-zinc-700"
+      <div className="max-w-full">
+        {imagePreview && (
+          <div className="mb-3 flex items-center gap-2">
+            <div className="relative">
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-zinc-700"
+              />
+              <button
+                onClick={removeImage}
+                className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-base-300
+                flex items-center justify-center"
+                type="button"
+                aria-label="Remove attachment"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+          <div className="flex-1 flex gap-2">
+            <input
+              type="text"
+              className="w-full input input-bordered rounded-lg input-sm md:input-md"
+              placeholder="Type a message..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              aria-label="Message input"
             />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+            />
+
             <button
-              onClick={removeImage}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300
-              flex items-center justify-center"
               type="button"
+              className={`btn btn-circle ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
+              onClick={() => fileInputRef.current?.click()}
+              aria-label="Attach image"
             >
-              <X className="size-3" />
+              <ImageIcon size={18} />
             </button>
           </div>
-        </div>
-      )}
-
-      <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-        <div className="flex-1 flex gap-2">
-          <input
-            type="text"
-            className="w-full input input-bordered rounded-lg input-sm sm:input-md"
-            placeholder="Type a message..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-          />
-
           <button
-            type="button"
-            className={`btn btn-circle ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
-            onClick={() => fileInputRef.current?.click()}
-            aria-label="Attach image"
+            type="submit"
+            className="btn btn-primary btn-sm rounded-full px-3 py-2"
+            disabled={!text.trim() && !imagePreview}
+            aria-label="Send message"
           >
-            <ImageIcon size={20} />
+            <Send size={18} />
           </button>
-        </div>
-        <button
-          type="submit"
-          className="btn btn-primary btn-sm rounded-full px-3 py-2"
-          disabled={!text.trim() && !imagePreview}
-          aria-label="Send message"
-        >
-          <Send size={18} />
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
