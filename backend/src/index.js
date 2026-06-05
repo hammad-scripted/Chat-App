@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({
   path: './.env',
 });
+import path from 'node:path';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dns from 'node:dns/promises';
@@ -13,6 +14,7 @@ import messageRouter from './routes/message.route.js';
 import { io, server, app } from './lib/socket.js';
 const PORT = process.env.PORT || 5001;
 import { connectDB } from './db/connect.js';
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 // ** MIDDLEWARES
 app.use(express.json({ limit: '10mb' }));
@@ -27,9 +29,17 @@ app.use(
   }),
 );
 
+
 // ** ROUTES
 app.use('/api/auth', authRouter);
 app.use('/api/message', messageRouter);
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static(path.join(__dirname, '../dist')  ));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+}
 
 connectDB()
   .then((conn) => {
