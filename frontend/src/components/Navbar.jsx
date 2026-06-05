@@ -5,7 +5,7 @@ import { useChatStore } from '../store/useChatStore';
 
 export const Navbar = () => {
   const { logout, authUser } = useAuthStore();
-  const { sidebarOpen, setSidebarOpen } = useChatStore();
+  const { sidebarOpen, toggleSidebar } = useChatStore();
 
   return (
     <header
@@ -15,8 +15,13 @@ export const Navbar = () => {
       <div className="container mx-auto px-4 h-16">
         <div className="flex items-center justify-between h-full">
           <div className="flex items-center gap-4">
-            <button className="lg:hidden btn btn-ghost mr-2" onClick={() => setSidebarOpen(!sidebarOpen)}>
-              <Menu className="w-5 h-5" />
+            <button
+              className="lg:hidden p-2 rounded-md hover:bg-base-200/50 transition-colors mr-2"
+              onClick={toggleSidebar}
+              aria-label="Toggle contacts"
+              aria-expanded={sidebarOpen}
+            >
+              <Menu className="w-6 h-6" />
             </button>
 
             <Link
