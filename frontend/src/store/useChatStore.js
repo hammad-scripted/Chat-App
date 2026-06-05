@@ -11,7 +11,8 @@ export const useChatStore=create((set,get)=>({
     isUserLoading:false,
     isMessagesLoading:false,
     socket:null,
-    sidebarOpen:false,
+    // Keep sidebar open by default on tablet/desktop, closed on small screens
+    sidebarOpen: (typeof window !== 'undefined' && window.innerWidth >= 768) ? true : false,
 
 
     getUsers:async()=>{
@@ -80,8 +81,11 @@ unsubscribeFromMessages:()=>{
 ,
 
 setSelectedUser:(selectedUser)=>{
-    set({selectedUser, sidebarOpen: false});
+    // Close sidebar only on small screens. Keep visible on tablet/desktop.
+    const isMobile = (typeof window !== 'undefined' && window.innerWidth < 768);
+    set({selectedUser, sidebarOpen: isMobile ? false : true});
 },
+
 setSidebarOpen:(open)=>{
     set({sidebarOpen: open});
 },
