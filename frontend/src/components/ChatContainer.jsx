@@ -61,14 +61,14 @@ const ChatContainer = () => {
     <div className="flex-1 flex flex-col overflow-auto">
       <ChatHeader />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-28 md:pb-24">
         {messages && messages.map((message, idx) => (
           <div
             key={message._id}
             className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
           >
-            <div className=" chat-image avatar">
-              <div className="size-10 rounded-full border">
+            <div className="chat-image avatar">
+              <div className="w-10 h-10 rounded-full border overflow-hidden">
                 <img
                   src={
                     message.senderId === authUser._id
@@ -84,15 +84,15 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
-            <div className="chat-bubble flex flex-col">
+            <div className="chat-bubble flex flex-col max-w-[75%] sm:max-w-[60%] md:max-w-[45%]">
               {message.image && (
                 <img
                   src={message.image}
                   alt="Attachment"
-                  className="sm:max-w-[200px] rounded-md mb-2"
+                  className="w-full h-auto rounded-md mb-2 max-h-[45vh] object-cover"
                 />
               )}
-              {message.text && <p>{message.text}</p>}
+              {message.text && <p className="break-words">{message.text}</p>}
             </div>
             {/* place messageEndRef on last message to scroll to bottom */}
             {idx === (messages.length - 1) && <div ref={messageEndRef} />}

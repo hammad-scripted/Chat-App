@@ -86,14 +86,14 @@ const MessageInput = () => {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="sticky bottom-0 bg-base-100 z-20 border-t border-base-300 p-3 md:p-4">
       {imagePreview && (
         <div className="mb-3 flex items-center gap-2">
           <div className="relative">
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border border-zinc-700"
+              className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg border border-zinc-700"
             />
             <button
               onClick={removeImage}
@@ -128,16 +128,18 @@ const MessageInput = () => {
             type="button"
             className={`btn btn-circle ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
             onClick={() => fileInputRef.current?.click()}
+            aria-label="Attach image"
           >
             <ImageIcon size={20} />
           </button>
         </div>
         <button
           type="submit"
-          className="btn btn-sm btn-circle"
+          className="btn btn-primary btn-sm rounded-full px-3 py-2"
           disabled={!text.trim() && !imagePreview}
+          aria-label="Send message"
         >
-          <Send size={22} />
+          <Send size={18} />
         </button>
       </form>
     </div>
