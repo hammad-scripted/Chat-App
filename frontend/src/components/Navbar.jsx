@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
-import { LogOut, MessageSquare, Settings, User } from 'lucide-react';
+import { LogOut, MessageSquare, Settings, User, Menu } from 'lucide-react';
+import { useChatStore } from '../store/useChatStore';
 
 export const Navbar = () => {
   const { logout, authUser } = useAuthStore();
+  const { sidebarOpen, setSidebarOpen } = useChatStore();
 
   return (
     <header
@@ -12,7 +14,11 @@ export const Navbar = () => {
     >
       <div className="container mx-auto px-4 h-16">
         <div className="flex items-center justify-between h-full">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4">
+            <button className="lg:hidden btn btn-ghost mr-2" onClick={() => setSidebarOpen(!sidebarOpen)}>
+              <Menu className="w-5 h-5" />
+            </button>
+
             <Link
               to="/"
               className="flex items-center gap-2.5 hover:opacity-80 transition-all"

@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 
 const ChatHeader = () => {
-  const { selectedUser, setSelectedUser } = useChatStore();
+  const { selectedUser, setSelectedUser, setSidebarOpen } = useChatStore();
   const { onlineUsers } = useAuthStore();
 
   if (!selectedUser) return null;
@@ -29,7 +29,7 @@ const ChatHeader = () => {
         </div>
 
         {/* Close button */}
-        <button onClick={() => setSelectedUser(null)}>
+        <button onClick={() => { setSelectedUser(null); setSidebarOpen(true); }}>
           <X />
         </button>
       </div>

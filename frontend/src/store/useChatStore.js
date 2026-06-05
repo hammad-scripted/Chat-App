@@ -11,6 +11,7 @@ export const useChatStore=create((set,get)=>({
     isUserLoading:false,
     isMessagesLoading:false,
     socket:null,
+    sidebarOpen:false,
 
 
     getUsers:async()=>{
@@ -79,7 +80,13 @@ unsubscribeFromMessages:()=>{
 ,
 
 setSelectedUser:(selectedUser)=>{
-    set({selectedUser});
+    set({selectedUser, sidebarOpen: false});
+},
+setSidebarOpen:(open)=>{
+    set({sidebarOpen: open});
+},
+toggleSidebar:()=>{
+    set({sidebarOpen: !get().sidebarOpen});
 }
 
-})) 
+}))
